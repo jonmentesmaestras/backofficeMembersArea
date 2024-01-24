@@ -1,0 +1,19 @@
+class ProductosEntity {
+    ProductID = 0;
+    ProductCode = "";
+    ProductName = "";
+    Estado = "";
+    ImageURL = "";
+    ProductDesc = "";
+    WebhookKey = "";
+    Webhook = "";
+    ThirdPartyProductID = "";
+    Disponibilidad = null;
+    FK_ProductCategoryCode = "";
+    Active = false;
+    ActivedDT = null;
+    CreatedBy = "";
+    CreatedDT = null;
+    UpdatedBy = "";
+    UpdatedDT = null;
+}
