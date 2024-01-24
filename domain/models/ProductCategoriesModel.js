@@ -4,16 +4,22 @@ var execute = {};
 
 /**
  * Crear un nuevo registro de Issues and Suggestion
- * @param UsuariosCategoriaEntity
+ * @param ProductCategoriesEntity
  * @returns {Promise<Model<any, TModelAttributes>>}
  */
-execute.store = async function (AdsCategoryEntity) {
-    return await model.AdsCategory.create({
+execute.store = async function (ProductCategoriesEntity) {
+    return await model.ProductCategories.create({
 
-        ID_Category:null,
-        Category_Code: AdsCategoryEntity.Category_Code,
-        Category_Name: AdsCategoryEntity.Category_Name
-        
+        ProductCategoryID: null,
+        ProductCategoryCode: ProductCategoriesEntity.ProductCategoryCode,
+        ProductCategoryDesc: ProductCategoriesEntity.ProductCategoryDesc,
+        FK_EstanteriaCode: ProductCategoriesEntity.FK_EstanteriaCode,
+        Active: ProductCategoriesEntity.Active,
+        ActivedDT: ProductCategoriesEntity.ActivedDT,
+        CreatedBy: ProductCategoriesEntity.CreatedBy ,
+        CreatedDT: ProductCategoriesEntity.CreatedDT,
+        UpdatedBy: ProductCategoriesEntity.UpdatedBy,
+        UpdatedDT: ProductCategoriesEntity.UpdatedDT 
 
     });
 }

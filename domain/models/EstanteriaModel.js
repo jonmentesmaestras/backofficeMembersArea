@@ -4,20 +4,21 @@ var execute = {};
 
 /**
  * Crear un nuevo registro de Issues and Suggestion
- * @param FanPagesEntity
+ * @param EstanteriaEntity
  * @returns {Promise<Model<any, TModelAttributes>>}
  */
-execute.store = async function (FanPagesEntity) {
-    return await model.FanPages.create({
+execute.store = async function (EstanteriaEntity) {
+    return await model.Estanteria.create({
 
-        ID_Fanpage: null,
-        pageID:FanPagesEntity.pageID,
-        pageName: FanPagesEntity.pageName,
-        page_profile_picture_url: FanPagesEntity.page_profile_picture_url,
-        page_categories: FanPagesEntity.page_categories,
-        current_page_name: FanPagesEntity.current_page_name,
-        page_profile_uri: FanPagesEntity.page_profile_uri,
-        FK_ID_SavedAd: FanPagesEntity.FK_ID_SavedAd   
+        EstanteriaID: null,
+        EstanteriaCode: EstanteriaEntity.EstanteriaCode ,
+        EstanteriaDesc: EstanteriaEntity.EstanteriaDesc,
+        Active: EstanteriaEntity.Active,
+        ActivedDT: EstanteriaEntity.ActivedDT,
+        CreatedBy: EstanteriaEntity.CreatedBy ,
+        CreatedDT: EstanteriaEntity.CreatedDT,
+        UpdatedBy: EstanteriaEntity.UpdatedBy,
+        UpdatedDT: EstanteriaEntity.UpdatedDT 
 
     });
 }

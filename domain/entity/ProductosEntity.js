@@ -1,4 +1,4 @@
-class ProductosEntity {
+module.exports = class ProductosEntity {
     ProductID = 0;
     ProductCode = "";
     ProductName = "";
@@ -10,7 +10,7 @@ class ProductosEntity {
     ThirdPartyProductID = "";
     Disponibilidad = null;
     FK_ProductCategoryCode = "";
-    Active = false;
+    Active = true;
     ActivedDT = null;
     CreatedBy = "";
     CreatedDT = null;

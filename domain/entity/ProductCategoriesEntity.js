@@ -1,8 +1,8 @@
-class ProductCategoriesEntity {
+module.exports = class ProductCategoriesEntity {
     ProductCategoryCode = "";
     ProductCategoryDesc = "";
     FK_EstanteriaCode = "";
-    Active = false;
+    Active = true;
     ActivedDT = null;
     CreatedBy = "";
     CreatedDT = null;

@@ -12,6 +12,7 @@ var model = {}
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   EstanteriaCode: {
     type: DataTypes.STRING(35),
@@ -51,6 +52,7 @@ model.ProductCategories = connection.sequelize.define('ProductCategories', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   ProductCategoryCode: {
     type: DataTypes.STRING(35),
@@ -95,6 +97,7 @@ model.Productos = connection.sequelize.define('Productos', {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
+    autoIncrement: true
   },
   ProductCode: {
     type: DataTypes.STRING(35),
@@ -160,6 +163,7 @@ model.Lessons = connection.sequelize.define('Lessons', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   LessonCode: {
     type: DataTypes.STRING(35),
@@ -210,6 +214,7 @@ model.ProductModules = connection.sequelize.define('ProductModules', {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
   ProductModuleCode: {
     type: DataTypes.STRING(35),

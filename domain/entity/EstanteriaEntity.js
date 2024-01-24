@@ -1,7 +1,7 @@
-class EstanteriaEntity {
+module.exports = class EstanteriaEntity {
     EstanteriaCode = "";
     EstanteriaDesc = "";
-    Active = false;
+    Active = true;
     ActivedDT = null;
     CreatedBy = "";
     CreatedDT = null;

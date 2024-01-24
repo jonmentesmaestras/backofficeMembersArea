@@ -1,9 +1,9 @@
-class ProductModulesEntity {
+module.exports = class ProductModulesEntity {
     ProductModuleID = 0;
     ProductModuleCode = "";
     ProductModuleName = "";
     FK_ProductCode = "";
-    Active = false;
+    Active = true;
     ActivedDT = null;
     CreatedBy = "";
     CreatedDT = null;
