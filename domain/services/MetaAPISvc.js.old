@@ -1,0 +1,390 @@
+const fs = require('fs');
+const AdsDetailsEntity = require('../../domain/entity/AdsDetailsEntity')
+const adsDetails = require('../../domain/models/AdsDetailsModel')
+const fanPagesModel = require('../../domain/models/FanPagesModel')
+const fanPagesEntity =  require('../../domain/entity/FanPagesEntity')
+const anunciosGuardadosModel = require('../../domain/models/AnunciosGuardadosModel');
+const { AnunciosGuardados } = require('../../model');
+
+const errorStruct = require('../../domain/entity/ErrorStructure')
+
+var MetaApiSvc = {}
+
+MetaApiSvc.saveAdDetails = async function(AdsID){
+  let url = "https://www.facebook.com/ads/archive/render_ad/?id="
+  let access_token = "EAAZAgc6ROP6cBO5r0TxofXmOnZAamJvh89oZAIRIpgHBOQ7eLW3aH0kHLp16NZAmQs7x27NrUtUHALNHLUZAcPvumRQRm1XIyBTKM1Guz0Y9dnzgqDKkfMZBZB6NTtHIg0FGL42ANzcJUuFMbvg9CZCbJXFpJrjpbGZBZBnfRnUMfABLekAxfM7dMfyPpF3gA05mXWctBs3X9OHloiyXDA"  
+  let error = new errorStruct
+  let response = {}
+  response.error = false
+
+  fetch(`${url}${AdsID}&access_token=${access_token}`, {
+  "headers": {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "accept-language": "en-US,en;q=0.9,es-US;q=0.8,es;q=0.7",
+    "cache-control": "max-age=0",
+    "dpr": "1.375",
+    "sec-ch-prefers-color-scheme": "light",
+    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+    "sec-ch-ua-full-version-list": "\"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"120.0.6099.130\", \"Google Chrome\";v=\"120.0.6099.130\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-model": "\"\"",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "sec-ch-ua-platform-version": "\"10.0.0\"",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "same-origin",
+    "sec-fetch-user": "?1",
+    "upgrade-insecure-requests": "1",
+    "viewport-width": "1396",
+    "cookie": "sb=KjRkZBbYbCemHFGE84ImRjpr; c_user=100006815103553; datr=deyAZVWI-e6CYmmA_E0n53Pk; m_ls=%7B%22c%22%3A%7B%221%22%3A%22HCwAABawBBbgj_-CAxMFFoLpg-uUvS0A%22%2C%222%22%3A%22GSwVQBxMAAAWARaS29zYDBYAABV-HEwAABYAFoCyh9gMFgAAFigA%22%2C%2295%22%3A%22HCwAABZEFpzU_tAKEwUWgumD65S9LQA%22%7D%2C%22d%22%3A%220c119f89-e471-4c41-aa8b-b4c70eb40944%22%2C%22s%22%3A%220%22%2C%22u%22%3A%2236p56u%22%7D; xs=32%3Ai9l5_On9Gp46hQ%3A2%3A1702947955%3A-1%3A14064%3A%3AAcXESmvJDFU4K-0HQTYBLEJl6ciYMvcH5VgTl2wePss; fr=1mtYHl7Sc6efBiHtX.AWV8Lt9FWScc7jqH300RiQCb2Lo.Blja8F.Y_.AAA.0.0.Blja8F.AWVBnc1ndBk; wd=1396x222; dpr=1.375"
+  },
+  "referrerPolicy": "origin-when-cross-origin",
+  "body": null,
+  "method": "GET"
+})
+.then(response => {
+    if (!response.ok) {
+      response.error = true
+      throw new Error(`HTTP error saving from FB API! Status: ${response.status}`);
+    }
+    return response.text(); // Use text() to get the body as plain text
+  })
+  .then(body => {
+    //fs.writeFileSync('response.html', body);
+    
+    
+    try {
+      //const data = fs.readFileSync('response.html', 'utf8');
+      //console.log('File content:', data);
+
+      // se extra el json que empieza por s.handle del body de la respuesta
+        var myHugeJSON = extractJsonData(body)
+        //console.log("myHugeJSON is " + myHugeJSON)
+        fs.writeFileSync('hugeJsonValid.json', myHugeJSON)
+
+        if(myHugeJSON === 'error'){
+          throw new Error(`No se encontró inicio de cadena s.handle`);
+        }
+        
+        //intentar parsear el json
+        try {
+          const jsonObject = JSON.parse(myHugeJSON);
+          // get the adDetails keys
+          var AdsDetailsKeys = {}
+          //initizalizing  AdsDetailsKeys keys
+            AdsDetailsKeys.originalHTML = ""
+            AdsDetailsKeys.hugeJson = ""
+            AdsDetailsKeys.startDate = ""
+            AdsDetailsKeys.endDate= ""
+            AdsDetailsKeys.impressionsText= ""
+            AdsDetailsKeys.reachEstimate= ""
+            AdsDetailsKeys.spend= ""
+            AdsDetailsKeys.currency= ""
+            AdsDetailsKeys.caption= ""
+            AdsDetailsKeys.title= ""
+            AdsDetailsKeys.__html= ""
+            AdsDetailsKeys.publisherPlatform= ""
+            AdsDetailsKeys.cta_text= ""
+            AdsDetailsKeys.cta_type= ""
+            AdsDetailsKeys.extra_images= ""
+            AdsDetailsKeys.extra_links= ""
+            AdsDetailsKeys.link_description= ""
+            AdsDetailsKeys.extra_videos= ""
+            AdsDetailsKeys.display_format= ""
+            AdsDetailsKeys.link_url= ""
+            AdsDetailsKeys.video_hd_url= ""
+            AdsDetailsKeys.video_sd_url= ""
+            creation_time= ""
+
+           //initizalizing fanpages empty object
+          var FanPagesKeys = {}
+
+            FanPagesKeys.pageID = ""
+            FanPagesKeys.pageName= ""
+            FanPagesKeys.page_profile_picture_url= ""
+            FanPagesKeys.page_categories= ""
+            FanPagesKeys.current_page_name= ""
+            FanPagesKeys.page_profile_uri= ""
+            
+
+
+            
+
+
+            // fill the object AdsDetailsKeys
+            for (var key in AdsDetailsKeys) {
+              if (AdsDetailsKeys.hasOwnProperty(key)) {
+               AdsDetailsKeys[key] =findKeyInNestedJson(jsonObject, key)
+               
+              }
+            }
+
+            //create an instance of AdsDetailsEntity
+            var newAdsDetailsObj = new AdsDetailsEntity
+
+            // store all the values in the new object
+            for (var key in AdsDetailsKeys) {
+              if (AdsDetailsKeys.hasOwnProperty(key)) {
+
+                //detect if the value is an array
+                if (Array.isArray(AdsDetailsKeys[key])) {
+                  //convert it into CSV value string
+                  AdsDetailsKeys[key] = AdsDetailsKeys[key].map(item => `"${item}"`).join(', ');
+                }                
+
+               newAdsDetailsObj[key] = AdsDetailsKeys[key]
+               console.log(newAdsDetailsObj[key])
+              }
+            }
+            
+            newAdsDetailsObj.originalHTML = body
+            newAdsDetailsObj.hugeJson = myHugeJSON
+             
+            //save the data
+            saveAdDetails(newAdsDetailsObj)
+            .then(result => 
+              
+              //actualiza el registro en la tabla Anuncios Guardardos  
+              anunciosGuardadosModel.updateAdDetails(AdsID, result.ID_AdDetails)
+
+              )
+            .catch(error => console.log(error))            
+          
+            //adding the new record in FanPages table
+            
+            // fill the object FanPagesKeys
+            for (var key in FanPagesKeys) {
+              if (FanPagesKeys.hasOwnProperty(key)) {
+                if(key === 'page_categories'){
+                  //since page_categories is a json we converted into a string before saving in db
+                  FanPagesKeys[key]=JSON.stringify(findKeyInNestedJson(jsonObject, key))  
+                } else{
+                  FanPagesKeys[key] =findKeyInNestedJson(jsonObject, key)
+                }
+                
+                console.log(`FanPagesKeys[key] ${key} is `, FanPagesKeys[key])
+              }
+            }           
+
+            //create an instance of fanPagesEntity
+            var newFanPagesObj = new fanPagesEntity
+
+            // store all the values in the new object
+            for (var key in FanPagesKeys) {
+              if (FanPagesKeys.hasOwnProperty(key)) {
+
+                newFanPagesObj[key] = FanPagesKeys[key]
+                console.log("newFanPagesObj[key] is ", newFanPagesObj[key])
+              }
+            }
+
+
+            // traer el anuncio que corresponde a esta fan page  
+            getAd(AdsID)
+            .then(response => {
+              
+              newFanPagesObj.FK_ID_SavedAd = response.ID_SavedAd
+
+              //save data in FanPages Table
+              saveFanPages(newFanPagesObj)
+              .then(result => 
+                
+                console.log("result fanpage is ", result)
+  
+                )
+              .catch(error => {
+                response.error = true
+                response.message = 'Error Saving Fan Page ' + error
+                return response  
+                  
+              })                
+  
+            })
+            .catch(error => {
+              // Handle errors
+              console.error('Error fetching Anuncios Guardados data:', error);
+              response.error = true
+              response.message = 'Error fetching Anuncios Guardados data:' + error
+              return response  
+            });
+            
+            
+            
+
+            
+
+          
+          //var targetKey = "publisherPlatform"
+          //findKeyInNestedJson(jsonObject, targetKey)
+          
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          response.error = true
+          response.message = 'Error parsing JSON:' + error
+          return response          
+        }        
+
+        //end getting html body
+      } catch (err) {
+        console.error('Error reading the html body:', err);
+        response.error = true
+        response.message = 'Error reading the html body:' + err
+        return response
+      }
+
+      
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+    response.error = true
+    response.message = 'Fetch error:' + error
+    
+    
+  });
+
+  return response
+
+}
+// end saveAdDetails
+
+async function getAd(LibraryID){
+  let myAd = await anunciosGuardadosModel.getAdsByLibraryID(LibraryID)
+  return myAd
+}
+
+  //get the json part of the body
+  function extractJsonData(htmlBody){
+      //obtener el inicio del json
+      var inicio = htmlBody.indexOf("s.handle(")
+
+      try{
+        if (inicio < 0)  throw new Error(`no se encontró el inicio correcto "s.handle"`);
+        //fin del json
+        var fin = htmlBody.indexOf('requireLazy(["Run"],function(Run)')
+        
+        var hugeJson = htmlBody.substring(inicio, fin-2) 
+        hugeJson = hugeJson.replace('s.handle(', '')
+
+        return hugeJson
+
+        } catch (error){
+
+          return "error"
+          console.error('Fetch error:', error);
+        }
+ 
+      
+      //fs.writeFileSync('hugeJsontest.json', hugeJson);
+      /*try {
+        const jsonObject = JSON.parse(hugeJson);
+        //console.log(jsonObject.markup[0][1].__html);
+        
+        var targetKey = "publisherPlatform"
+        findKeyInNestedJson(jsonObject, targetKey)
+        
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }*/
+
+  }
+
+  function findKeyInNestedJson(obj, targetKey) {
+    const stack = [{ obj, parentKey: '' }];
+  
+    while (stack.length > 0) {
+      const { obj, parentKey } = stack.pop();
+  
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const currentKey = parentKey ? `${parentKey}.${key}` : key;
+  
+          if (key === targetKey) {
+            // Key found, print or return the value
+            //console.log(`Found key: ${currentKey}, Value: ${obj[key]}`);
+            // Or you can return the value or perform further actions
+            return obj[key];
+          }
+  
+          if (typeof obj[key] === 'object') {
+            stack.push({ obj: obj[key], parentKey: currentKey });
+          }
+        }
+      }
+    }
+  
+    // If the key is not found
+    //console.log(`Key '${targetKey}' not found.`);
+    return null;
+  }
+
+
+
+
+
+  function iterateNestedKeysIterative(obj) {
+    const stack = [{ obj, parentKey: '' }];
+  
+    while (stack.length > 0) {
+      const { obj, parentKey } = stack.pop();
+  
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const currentKey = parentKey ? `${parentKey}.${key}` : key;
+  
+          if (typeof obj[key] === 'object') {
+            stack.push({ obj: obj[key], parentKey: currentKey });
+          } else {
+            console.log(currentKey, obj[key]);
+          }
+        }
+      }
+    }
+  }
+
+
+// save to AdsDetails table
+async function saveAdDetails(AdsDetails){
+    let response = {}
+    response.message =""
+    response.error = false
+    response.ID_AdDetails = null
+  try{
+
+        // save the data to adsdetails
+        let resultSave = await adsDetails.store(AdsDetails)
+        response.ID_AdDetails = resultSave.dataValues.ID_AdDetails
+        console.log("el nuevo id del nuevo regisgro en AdsDetails es ", response.ID_AdDetails ) 
+        response.message = "Se ha creado el registro con exito.";
+        response.data = resultSave;
+
+  } catch(error){
+    response.message = "Error al guardar: " +  error.message
+    response.error = true
+    console.log("Error saving AdDetails" + error)
+  }
+  return response
+}
+
+// save to Fanpage table
+async function saveFanPages(FanpagesData){
+    let response = {}
+    response.message =""
+    response.error = false
+    
+  try{
+
+        // save the data to adsdetails
+        let resultSave = await fanPagesModel.store(FanpagesData)  //adsDetails.store(AdsDetails)
+        
+        response.message = "Se ha creado el registro FanPages con exito.";
+        response.data = resultSave;
+
+  } catch(error){
+    response.message = "Error al guardar fanpage: " +  error.message
+    response.error = true
+    console.log("Error saving FanPages" + error)
+  }
+  return response
+}
+
+module.exports = MetaApiSvc

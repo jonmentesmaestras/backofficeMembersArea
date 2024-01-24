@@ -1,0 +1,85 @@
+/* Define the background gradient */
+.mylogin-div {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to right, #000000, #0a0a0a, #000022);
+  }
+  
+  
+  /* Define the logo style */
+  .logo {
+    width: 385px;
+    height: 166px;
+    margin: 0 auto;
+    
+  }
+  .mininglogo {
+    width: 346px;
+    height: 148px;
+    margin: 35px;
+    
+  }
+  
+  /* Define the greeting style */
+  .greeting {
+    color: white;
+    font-family: Fira Sans, sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+  }
+  .greeting2 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  
+  /* Define error text messages  style */
+  .errorMsgText {
+    color: rgb(229, 16, 16);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  /* Define the form style */
+  .mylogin-form {
+    width: 300px;
+    margin: auto;
+    border: 2px solid #0fb0fc;
+    border-radius: 11px;
+    background: #10336c;
+    padding: 5px;
+  }
+  
+  /* Define the input style */
+  .mylogin-input {
+    width: 250px;
+    border-radius: 13px;
+    
+    margin: 20px;
+    border: 1px solid black;
+  }
+  
+  .mylogin-input:focus {
+    outline: none;
+    border: 3px solid yellow;
+    box-shadow: 0 0 10px yellow;
+  }
+  
+  /* Define the button style */
+  .mylogin-button {
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+    width: 250px;
+    height: 40px;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+    background: #c3ca0b;
+    color: rgb(27, 10, 70);
+  }

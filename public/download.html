@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Download</title>
+</head>
+<body>
+
+<!-- Button to trigger image download -->
+<button id="downloadButton">Download Image</button>
+
+<script>
+document.getElementById('downloadButton').addEventListener('click', async function() {
+  // Replace 'IMAGE_URL' with the actual URL of the image you want to download
+  const imageUrl = 'https://scontent-bog1-1.xx.fbcdn.net/v/t39.35426-6/416110705_1037494717324293_7413019500931485991_n.jpg?stp=dst-jpg_s600x600&_nc_cat=104&ccb=1-7&_nc_sid=c53f8f&_nc_eui2=AeH7IiBVdpKP4PNwff_35ZrmzA5kTmumVpLMDmROa6ZWkuCA3cnaOWwSJMnkO9ar4XexphmzPdshVI_gFt4TQinr&_nc_ohc=ZTgtvpo0NbQAX840FOJ&_nc_ht=scontent-bog1-1.xx&oh=00_AfArGPkBQ9vn_1aPbbZzudGQ3Mg93BWqofbi3rUe53fVuA&oe=659CA75C';
+
+  // Fetch the image
+  const response = await fetch(imageUrl);
+  const blob = await response.blob();
+
+  // Convert the image to base64
+  const base64String = await blobToBase64(blob);
+
+  // Create a link element
+  const downloadLink = document.createElement('a');
+
+  // Set the href attribute to the base64 data
+  downloadLink.href = `data:image/jpeg;base64,${base64String}`;
+
+  // Set the download attribute to suggest a filename (optional)
+  downloadLink.download = 'downloaded_image.jpg';
+
+  // Append the link to the document
+  document.body.appendChild(downloadLink);
+
+  // Programmatically trigger a click on the link to initiate the download
+  downloadLink.click();
+
+  // Remove the link from the document
+  document.body.removeChild(downloadLink);
+});
+
+async function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      resolve(base64String.split(',')[1]);
+    };
+    reader.onerror = reject;
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css" /> 
+    <link rel=stylesheet href="login.css"> 
+    <title>Reportar Sugerencias</title>
+</head>
+<body>
+<div class="mylogin-div">
+    <div style="display: grid; place-items: center;">
+        <img src="../img/powerads-logo-three.png" width="198" height="198" alt="Logo" style="margin-top:5%;margin-bottom:-5px">
+    </div>
+
+    <div style="display: grid; place-items: center;color: white; margin-bottom: 15px; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+        Escribe tus sugerencias o inconvenientes que tienes con la extensión.<br>
+        Nos pondremos en contacto contigo.
+    </div>
+    
+    <div class="mylogin-form" id="form-assign-password">
+
+        <div style="color: white; margin-top: 7px; margin-bottom: -15px;  margin-left: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <label class="">Reportar Sugerencias:</label>
+        </div>
+        
+        <textarea required class="mylogin-input" id="input-issues-suggestions" rows="6" cols="50" maxlength="350"></textarea>
+        
+        <div style="display: grid; place-items: center;">
+            <button class="mylogin-button" onclick="crearIssueSuggestion()">Enviar</button>
+        </div>
+
+    </div>
+    <div style="display: grid; place-items: center;color: rgb(225, 236, 110); margin-top: 7px; margin-bottom: -15px;  margin-left: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <p id="result-msg"></p>
+    </div>
+
+</div>
+<script type="text/javascript" src="suggestions.js"></script>
+</body>
+</html>

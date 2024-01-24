@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Download</title>
+</head>
+<body>
+
+<!-- Button to trigger image download -->
+<button id="downloadButton">Download Image</button>
+
+<script>
+document.getElementById('downloadButton').addEventListener('click', function() {
+  // Replace 'IMAGE_URL' with the actual URL of the image you want to download
+  const imageUrl = 'https://scontent-bog1-1.xx.fbcdn.net/v/t42.1790-2/415734632_378589331381079_2570600030341894433_n.?_nc_cat=107&ccb=1-7&_nc_sid=c53f8f&_nc_eui2=AeHnHmPpWJ4EbuOkQNlZBrDaRxHkAlfwOflHEeQCV_A5-R2alaf0vs1dtEiQIyXaECemA74wzsTR-m8B63aDERWk&_nc_ohc=c0qw4sKPW9cAX_ruRrz&_nc_ht=scontent-bog1-1.xx&oh=00_AfBTfzF5g7UT8cfqc8pGHNkvjF6xfGW2ubZtP6Ecld3aEw&oe=659D6E86';
+
+  // Create a link element
+  const downloadLink = document.createElement('a');
+
+  // Set the href attribute to the image URL
+  downloadLink.href = imageUrl;
+
+  // Set the download attribute to suggest a filename (optional)
+  downloadLink.download = 'downloaded_video.mp4';
+
+  // Append the link to the document
+  document.body.appendChild(downloadLink);
+
+  // Programmatically trigger a click on the link to initiate the download
+  downloadLink.click();
+
+  // Remove the link from the document
+  document.body.removeChild(downloadLink);
+});
+</script>
+
+</body>
+</html>
